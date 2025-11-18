@@ -136,7 +136,7 @@ class Users extends Model
      * @return array|null
      */
     public static function getUsersDetails( $user_status, $page_no, $per_limit, $like_args = '' ) {
-        $wlr_users_table = 'wp_wlr_users';
+        $wlr_users_table = self::db()->prefix . 'wlr_users';
         $optin_users_table = self::getTableName();
         $offset = ( $page_no - 1 ) * $per_limit;
         $where_clauses = ["ou.optin_status = {$user_status}"];
