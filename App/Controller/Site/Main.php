@@ -176,6 +176,7 @@ class Main {
             $user_data = get_user_by( 'email', $user_email );
             $loyalty_user_data = Woocommerce::getLoyaltyUserData( $user_email );
             $optin_status = !empty( $loyalty_user_data ) ? 1 : 0;
+            $optin_status = apply_filters('wlopt_existing_user_wlr_preference', $optin_status);
             $data = array(
                 'user_email' => $user_email,
                 'wp_user_id' => $user_data ? $user_data->ID : null,
