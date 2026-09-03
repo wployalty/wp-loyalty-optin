@@ -372,7 +372,7 @@ class Main {
 		if ( empty( $user_id ) ) {
 			return;
 		}
-        $user_email = get_user($user_id)->user_email;
+        $user_email = function_exists( 'get_user' ) ? get_user( $user_id )->user_email : get_userdata( $user_id )->user_email;
 
 		$accept_wployalty_membership = Input::get( 'accept_wployalty_membership', Users::getUserOptinStatus($user_email));
 
