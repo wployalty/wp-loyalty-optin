@@ -176,6 +176,7 @@ class Main {
             $user_data = get_user_by( 'email', $user_email );
             $loyalty_user_data = Woocommerce::getLoyaltyUserData( $user_email );
             $optin_status = !empty( $loyalty_user_data ) ? 1 : 0;
+            $optin_status = apply_filters('wlopt_existing_user_wlr_preference', $optin_status);
             $data = array(
                 'user_email' => $user_email,
                 'wp_user_id' => $user_data ? $user_data->ID : null,
@@ -319,13 +320,15 @@ class Main {
 			return;
 		}
 
+		$default_optin = (int) apply_filters( 'wlopt_registration_default_optin', 0 );
+
 		woocommerce_form_field( 'accept_wployalty_membership', [
 			'type'     => 'checkbox',
 			'id'       => 'accept_wployalty_membership',
 			'class'    => [ 'form-row-wide accept_wployalty_membership' ],
 			'label'    => __( 'Check this to become a member of WPLoyalty program.', 'wp-loyalty-optin' ),
 			'required' => false,
-		] );
+		], $default_optin );
 	}
 
 	/**
@@ -371,7 +374,7 @@ class Main {
 		if ( empty( $user_id ) ) {
 			return;
 		}
-        $user_email = get_user($user_id)->user_email;
+        $user_email = function_exists( 'get_user' ) ? get_user( $user_id )->user_email : get_userdata( $user_id )->user_email;
 
 		$accept_wployalty_membership = Input::get( 'accept_wployalty_membership', Users::getUserOptinStatus($user_email));
 
