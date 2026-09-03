@@ -320,13 +320,15 @@ class Main {
 			return;
 		}
 
+		$default_optin = (int) apply_filters( 'wlopt_registration_default_optin', 0 );
+
 		woocommerce_form_field( 'accept_wployalty_membership', [
 			'type'     => 'checkbox',
 			'id'       => 'accept_wployalty_membership',
 			'class'    => [ 'form-row-wide accept_wployalty_membership' ],
 			'label'    => __( 'Check this to become a member of WPLoyalty program.', 'wp-loyalty-optin' ),
 			'required' => false,
-		] );
+		], $default_optin );
 	}
 
 	/**
